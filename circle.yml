@@ -1,0 +1,7 @@
+dependencies:
+        pre:
+                - gem install rspec
+    test:
+            post:
+                    -rspec
+
