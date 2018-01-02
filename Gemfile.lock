@@ -1,0 +1,19 @@
+PATH
+  remote: ../bloc-record
+  specs:
+    bloc-record (0.0.0)
+      sqlite3 (~> 1.3)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    sqlite3 (1.3.13)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bloc-record!
+
+BUNDLED WITH
+   1.16.0
