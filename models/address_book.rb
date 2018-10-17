@@ -1,22 +1,23 @@
 require_relative 'entry'
 require "csv"
+require '/home/john/bloc/bloc_record/lib/bloc_record/base'
 
-class AddressBook
-  attr_reader :entries
+class AddressBook < BlocRecord::Base
 
-  def initialize
-    @entries = []
+  def add_entry(name, phone, email)
+    Entry.create(name: name, phone_number: phone, email: email, address_book_id: self.id)
   end
 
-  def add_entry(name, phone_number, email)
-    index = 0
-    entries.each do |entry|
-      if name < entry.name
-        break
-      end
-      index += 1
-    end
-    entries.insert(index, Entry.new(name, phone_number, email))
+  def entries
+    Entry.where(address_book_id: self.id)
+  end
+
+  def find_entry(name)
+    Entry.where(name: name, address_book_id: self.id).first
+  end
+
+  def find_order
+    Entry.order(name: :asc)
   end
 
   def import_from_csv(file_name)
@@ -29,24 +30,5 @@ class AddressBook
     end
   end
 
-  # Search AddressBook for a specific entry by name
-  def binary_search(name)
-    lower = 0
-    upper = entries.length - 1
 
-    while lower <= upper
-      mid = (lower + upper) / 2
-      mid_name = entries[mid].name
-
-      if name == mid_name
-        return entries[mid]
-      elsif name < mid_name
-        upper = mid - 1
-      elsif name > mid_name
-        lower = mid + 1
-      end
-    end
-
-    return nil
-  end
 end
